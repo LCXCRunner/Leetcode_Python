@@ -15,4 +15,4 @@ class Solution:
         return []
 
 #test case
-print(Solution.twoSum((),[1,99,4,7],5))
+print(Solution.twoSum((),[75,79,4,7],79))

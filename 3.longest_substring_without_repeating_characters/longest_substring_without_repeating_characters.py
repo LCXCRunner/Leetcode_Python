@@ -1,38 +1,40 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        # n : int = 0
-        # beginningPointer : int = 0
-        # longest : int = 0
-        # dct : dict = {}
-        # for i in range(len(s)):
-        #     if(s[i] in dct.values()):
-        #         beginningPointer = beginningPointer + 1 
-        #         dct.update({i:s[i]})
-        #     else:
-        #         n = n + 1
-        #         dct.update({i:s[i]})
-        #         longest = max(longest, i - beginningPointer +1)
-        # return longest
-        n = len(s)
-        maxLength = 0
-        charMap = {}
-        left = 0
-        
-        for right in range(n):
-            if s[right] not in charMap or charMap[s[right]] < left:
-                charMap[s[right]] = right
-                maxLength = max(maxLength, right - left + 1)
+        if len(s) == 1:
+            return 1
+        counter : int = 0
+        left : int = 0
+        right : int = 0
+        log : dict = {}
+        test : str = s[0:len(s)]
+
+        while right < len(s):
+            if right < left: 
+                right += 1
+                continue
+            subString : str = s[left:right]
+            # counter = max(counter,len(subString))
+            if s[right] in subString:
+                log[subString] = 1
+                left += 1
+                counter = max(counter,len(s[left:right]))
+                continue
+            if subString not in log:
+                log[subString] = 1
+                right += 1
+                counter = max(counter,len(s[left:right]))
             else:
-                left = charMap[s[right]] + 1
-                charMap[s[right]] = right
-        
-        return maxLength
+                log[subString] += 1
+                right += 1
+                counter = max(counter,len(s[left:right]))
+                # left += 1
+        return counter
 
 
 
 
 solution : Solution = Solution()
-# print(solution.lengthOfLongestSubstring("abcabcbb"))#3
-# print(solution.lengthOfLongestSubstring("bbbbb"))#1
+print(solution.lengthOfLongestSubstring("abcabcbb"))#3
+print(solution.lengthOfLongestSubstring("bbbbb"))#1
 print(solution.lengthOfLongestSubstring("pwwkew"))#3
 print(solution.lengthOfLongestSubstring("dvdf"))#3

@@ -75,9 +75,35 @@ def height(node : TreeNode):
         else:
             return rheight+1
 
+def leavesLeftToRight(node : TreeNode) -> list:
+    if node is None:
+        return
+    def helper(currNode : TreeNode):
+        if currNode is None:
+            return
+        if currNode.left == None and currNode.right == None or currNode.left.val == None and currNode.right.val == None:
+            print(currNode.val)
+            result.append(currNode.val)
+            return
+        else:
+            helper(currNode.left) 
+            helper(currNode.right)
+    result : list = []
+    helper(node)
+    
 if __name__ == '__main__':
-    arr = [1, 2, 3, 4, 5, 6, 6, 6, 6]
+    #             3
+    #           /   \
+    #         5       1
+    #        / \     / \
+    #       6   2   9   8
+    #          / \
+    #         7   4
+    arr = [3,5,1,6,2,9,8,None,None,7,4]
     n = len(arr)
     root = None
     root = insertLevelOrder(arr, 0, n) 
-    inOrder(root)
+    levelOrder(root)
+    print()
+    tester : list = leavesLeftToRight(root)
+    print(tester)

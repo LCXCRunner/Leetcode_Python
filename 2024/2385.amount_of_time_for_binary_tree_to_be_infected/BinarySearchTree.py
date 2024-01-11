@@ -49,6 +49,7 @@ def levelOrder(root : TreeNode):
     h = height(root)
     for i in range(1, h+1):
         currentLevel(root, i)
+    print()
  
  
 # Print nodes at a current level

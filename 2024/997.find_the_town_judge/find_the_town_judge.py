@@ -14,10 +14,10 @@ class Solution:
                 continue
         if len(noTrust) == 0:
             return -1
-        else:
-            return (noTrust[0])
         
         # Find out if there is anyone that everyone trusts
+        
+        print(initialPopulation)
 
 
 

@@ -1,27 +1,27 @@
+from collections import Counter
+
 class FindSumPairs:
 
     def __init__(self, nums1: list[int], nums2: list[int]):
         self.nums1 : list[int] = nums1
         self.nums2 : list[int] = nums2
+        self.nums2Count : Counter = Counter(self.nums2)
 
     def add(self, index: int, val: int) -> None:
+        self.nums2Count[self.nums2[index]] -= 1 # decriment count of changed number
         self.nums2[index] += val
+        self.nums2Count[self.nums2[index]] += 1 # add new one if needed or update currnet
 
     def count(self, tot: int) -> int:
-        result : int = 0
-        # Create sorted copies without modifying original arrays
-        temp1 = sorted(self.nums1)
-        temp2 = sorted(self.nums2)
-
-        for i in range(len(temp2)):
-            for j in range(len(temp1) - 1, -1, -1):
-                sum : int = temp2[i] + temp1[j]
-                if sum < tot:
-                    break # need to move nums2 up
-                elif sum > tot:
-                    continue
-                else:
-                    result += 1
+        # Count frequency of each number in nums1, Counter follows hash map complexity
+        self.nums1Counter = Counter(self.nums1)
+        result = 0
+        
+        for num1 in self.nums1:
+            target = tot - num1  
+            # Add the count of how many times target appears in nums1
+            result += self.nums2Count[target]
+        
         return result
     
 solution : FindSumPairs = FindSumPairs([1,1,2,2,2,3], [1,4,5,2,5,4])

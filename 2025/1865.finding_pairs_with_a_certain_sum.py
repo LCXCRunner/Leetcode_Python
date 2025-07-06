@@ -9,12 +9,13 @@ class FindSumPairs:
 
     def count(self, tot: int) -> int:
         result : int = 0
-        self.nums1.sort()
-        self.nums2.sort()
+        # Create sorted copies without modifying original arrays
+        temp1 = sorted(self.nums1)
+        temp2 = sorted(self.nums2)
 
-        for i in range(len(self.nums2)):
-            for j in range(len(self.nums1) - 1, -1, -1):
-                sum : int = self.nums2[i] + self.nums1[j]
+        for i in range(len(temp2)):
+            for j in range(len(temp1) - 1, -1, -1):
+                sum : int = temp2[i] + temp1[j]
                 if sum < tot:
                     break # need to move nums2 up
                 elif sum > tot:

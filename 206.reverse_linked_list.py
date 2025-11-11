@@ -9,22 +9,21 @@ class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if head == None:
             return None
-        result : ListNode = None
-        tempList : list = [head]
-        tempNode : ListNode = head
+        
+        if head.next == None:
+            return head
+        else:
+            pointer : ListNode = head.next
+            tempNode : ListNode = None
+        
+        result : ListNode = head
+        result.next = None
 
-        while tempNode.next != None:
-            tempList.append(tempNode.next)
-            tempNode = tempNode.next
-
-        tempList.reverse()
-        tempNode = tempList[0]
-        result = tempNode
-
-        for i in range(1,len(tempList)):
-            tempNode.next = tempList[i]
-            tempNode = tempNode.next
-        tempNode.next = None
+        while pointer != None:
+            tempNode = pointer
+            pointer = pointer.next
+            tempNode.next = result
+            result = tempNode
 
         return result
 

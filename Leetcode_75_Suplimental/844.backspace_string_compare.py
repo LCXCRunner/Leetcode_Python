@@ -2,30 +2,16 @@ from collections import deque
 
 class Solution:
     def backspaceCompare(self, s: str, t: str) -> bool:
-        sResult : str = ""
-        tResult : str = ""
-        stackS : deque = deque(s)
-        stackS.reverse()
-        stackT : deque = deque(t)
-        stackT.reverse()
+        def remove_characters(s):
+            stack = []
+            for char in s:
+                if char == '#' and stack:
+                    stack.pop()
+                elif char != '#':
+                    stack.append(char)
+            return stack
 
-        while len(stackS) != 0:
-            if stackS[len(stackS) - 1] != "#":
-                sResult += stackS.pop()
-            else:
-                stackS.pop()
-                stackS.pop()
-        print(sResult)
-
-        while len(stackT) != 0:
-            if stackT[len(stackT) - 1] == "#":
-                tResult += stackT.pop()
-            else:
-                stackT.pop()
-                stackT.pop()
-        print(tResult)
-
-        return tResult == sResult
+        return remove_characters(s) == remove_characters(t)
 
 solution : Solution = Solution()
 print(solution.backspaceCompare("ab#c", "ad#c")) # true

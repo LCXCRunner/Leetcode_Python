@@ -7,14 +7,12 @@ class Solution:
         stack.reverse()
         
         while len(stack) != 0:
-            if stack[0] != "*":
+            if stack[len(stack)-1] != "*":
                 result.append(stack.pop())
             else:
                 result.pop()
                 stack.pop()
         return "".join(result)
-                
-
 
 solution : Solution = Solution()
 print(solution.removeStars("leet**cod*e")) # "lecoe"

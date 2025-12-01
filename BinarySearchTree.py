@@ -6,7 +6,7 @@ class TreeNode:
         self.right : TreeNode = right
 
 # Function to insert nodes in level order 
-def insertLevelOrder(arr : list, i : int, n : int):
+def insertLevelOrder(arr : list, i : int, n : int) -> TreeNode:
     root = None
     # Base case for recursion 
     if i < n:
@@ -91,6 +91,7 @@ def leavesLeftToRight(node : TreeNode) -> list:
             helper(currNode.right)
     result : list = []
     helper(node)
+    return result
     
 if __name__ == '__main__':
     #             3

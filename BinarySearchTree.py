@@ -9,7 +9,7 @@ class TreeNode:
 def insertLevelOrder(arr : list, i : int, n : int) -> TreeNode:
     root = None
     # Base case for recursion 
-    if i < n:
+    if i < n and arr[i] is not None:
         root = TreeNode(arr[i]) 
  
         # insert left child 

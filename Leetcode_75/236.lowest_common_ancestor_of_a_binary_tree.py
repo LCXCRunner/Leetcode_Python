@@ -52,21 +52,42 @@ def levelOrder(root : TreeNode):
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        self.stackAncestorsP : deque = deque()
-        self.hashSetQ : set = {}
+        self.stack : deque = deque()
+        self.hashSetQ : set = set()
+        self.found : bool = False
 
-        def findAncestorsP(node : TreeNode, target : TreeNode):
-            if node is None:
+        def findAncestors(node : TreeNode, target : TreeNode):
+            if node is None or self.found is True:
                 return
-            self.stackAncestorsP.append(node.val)
+            self.stack.append(node.val)
             if node.val == target:
+                self.found = True
                 return
             else:
-                findAncestorsP(node.left, target)
-                findAncestorsP(node.right, target)
-                self.stackAncestorsP.pop()
-        findAncestorsP(root, p)
-        print(self.stackAncestorsP)
+                findAncestors(node.left, target)
+                findAncestors(node.right, target)
+                if not self.found:
+                    self.stack.pop()
+
+        # find all p ancestors, store in stack
+        findAncestors(root, p)
+        self.pAncestors : deque = self.stack.copy()
+
+        # reset
+        self.stack.clear()
+        self.found = False
+
+        # find all q ancestors, store in set
+        findAncestors(root, q)
+        self.hashSetQ = set(self.stack)
+        
+        # find the least common ancestor
+        while len(self.pAncestors) > 0:
+            if self.pAncestors[len(self.pAncestors) - 1] in self.hashSetQ:
+                return self.pAncestors.pop()
+            else:
+                self.pAncestors.pop()
+
 
 
 arr1 : list = [3,5,1,6,2,0,8,None,None,7,4]

@@ -1,26 +1,21 @@
 from collections import deque
 class Solution:
     def findCircleNum(self, isConnected: list[list[int]]) -> int:
-        provinces : list[set] = [{0}]
-        stack : deque = deque([0])  
-        
-        visited : set = set()
-        visited.add(0)
-        n : int = len(isConnected)
-        while stack:
-            node : int = stack.pop()
-            for neighbor in range(n):
-                if isConnected[node][neighbor] == 1 and neighbor not in visited:
-                    visited.add(neighbor)
-                    stack.append(neighbor)
-                    for province in provinces:
-                        if node in province:
-                            province.add(neighbor)
-                            break
-                    else:
-                        provinces.append({neighbor})
+        visited = set()
+        provinces = 0
 
-        return len(provinces)
+        def dfs(city):
+            visited.add(city)
+            for cur, connected in enumerate(isConnected[city]):
+                if connected and cur not in visited:
+                    dfs(cur)
+            
+        for i in range(len(isConnected)):
+            if i not in visited:
+                dfs(i)
+                provinces += 1
+
+        return provinces
 
 
 solution : Solution = Solution()

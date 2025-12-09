@@ -9,7 +9,7 @@ class Solution:
         # roads:
         # a set with number pairs: {(0, 1), (4, 0), ...}
         roads : set = set()
-        graph : defaultdict[list] = defaultdict(list)
+        graph : defaultdict[list[int]] = defaultdict(list)
         for x, y in connections:
             graph[x].append(y)
             graph[y].append(x)

@@ -4,3 +4,4 @@ class Solution:
 
 print("test")
 tasks = [[1, 2], [2, 4], [4, 8]]
+print(Solution().minimumEffort(tasks))

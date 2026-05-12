@@ -3,3 +3,4 @@ class Solution:
         print("hello world")
 
 print("test")
+tasks = [[1, 2], [2, 4], [4, 8]]

@@ -4,6 +4,7 @@ class Solution:
 
 print("test")
 print("test2")
+intTest : int = 4
 tasks = [[1, 2], [2, 4], [4, 8]]
 task2 = [[1, 2], [2, 4], [4, 8], [1, 1]]
 print(Solution().minimumEffort(tasks))

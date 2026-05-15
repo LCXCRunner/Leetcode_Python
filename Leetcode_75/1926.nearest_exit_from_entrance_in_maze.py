@@ -1,37 +1,53 @@
-from collections import defaultdict
+from collections import deque
 
 class Solution:
     def nearestExit(self, maze: list[list[str]], entrance: list[int]) -> int:
-        # build graph
-        # defaultdict -> key = tuple(matrix cordinates) : value = list[neighboring cordinates that are not walls]
-        # example: {(0,0): [(0,1),(1,0)], (0,1): [(0,0),(1,1)]}
-        graph : defaultdict[tuple, list[tuple]] = defaultdict()
-        for i in range(len(maze)):
-            for j in range(len(maze[i])):
-                if maze[i][j] == "+":
+        rows : int = len(maze)
+        cols : int = len(maze[0])
+        start_row : int = entrance[0]
+        start_col : int = entrance[1]
+
+        queue : deque = deque([(start_row, start_col, 0)])
+        visited : set[tuple[int, int]] = {(start_row, start_col)}
+
+        while queue:
+            row, col, depth = queue.popleft()
+
+            # Any border cell other than the entrance is an exit.
+            if (row != start_row or col != start_col) and (
+                row == 0 or col == 0 or row == rows - 1 or col == cols - 1
+            ):
+                return depth
+
+            for d_row, d_col in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                next_row : int = row + d_row
+                next_col : int = col + d_col
+
+                if next_row < 0 or next_row >= rows or next_col < 0 or next_col >= cols:
                     continue
-                else:
-                    cordinate : tuple = (i,j)
-                    graph[cordinate] = []
-                    # check up
-                    if i != 0:
-                        if maze[i-1][j] == ".":
-                            graph[cordinate].append((i-1, j))
-                    # check right
-                    if j != len(maze[i]) - 1:
-                        if maze[i][j+1] == ".":
-                            graph[cordinate].append((i, j+1))
-                    # check down
-                    if i != len(maze) - 1:
-                        if maze[i+1][j] == ".":
-                            graph[cordinate].append((i+1, j))
-                    # check left
-                    if j != 0:
-                        if maze[i][j-1] == ".":
-                            graph[cordinate].append((i, j-1))
-        return graph
+                if maze[next_row][next_col] == "+":
+                    continue
+                if (next_row, next_col) in visited:
+                    continue
+
+                visited.add((next_row, next_col))
+                queue.append((next_row, next_col, depth + 1))
+
+        return -1
+        
+        
+
 
 solution : Solution = Solution()
 print(solution.nearestExit(maze = [["+","+",".","+"],[".",".",".","+"],["+","+","+","."]], entrance = [1,2])) # 1
+print()
 print(solution.nearestExit(maze = [["+","+","+"],[".",".","."],["+","+","+"]], entrance = [1,0])) # 2
+print()
 print(solution.nearestExit(maze = [[".","+"]], entrance = [0,0])) # -1
+print()
+print(solution.nearestExit(maze = [["+", "+", "+"], ["+", ".", "+"], ["+", ".", "+"]], entrance = [1,1])) # 1
+print()
+print(solution.nearestExit(
+    maze = [["+",".","+","+","+","+","+"],["+",".","+",".",".",".","+"],["+",".","+",".","+",".","+"],["+",".",".",".","+",".","+"],["+","+","+","+","+",".","+"]],
+    entrance = [0,1]
+)) # 12
